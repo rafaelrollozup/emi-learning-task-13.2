@@ -12,30 +12,237 @@ protocol NovoAutorViewControllerDelegate: AnyObject {
 }
 
 class NovoAutorViewController: UIViewController {
-
-    typealias MensagemDeValidacao = String
     
-    @IBOutlet weak var fotoImageView: UIImageView!
-    @IBOutlet weak var fotoTextField: UITextField!
-    @IBOutlet weak var nomeTextField: UITextField!
-    @IBOutlet weak var bioTextField: UITextField!
-    @IBOutlet weak var tecnologiasTableView: UITableView!
+    // MARK: - Subviews
+    private lazy var logoWrapperStackView: UIStackView = {
+        let imageView = UIImageView(image: .init(named: "LogoTypo"))
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFit
+        imageView.tintColor = .white
+        imageView.constrainHeight(to: 32)
+        
+        let stackView = UIStackView(arrangedSubviews: [
+            imageView,
+        ])
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .horizontal
+        stackView.alignment = .center
+        stackView.distribution = .fill
+        stackView.constrainHeight(to: 48)
+        stackView.backgroundColor = .texasRose.withAlphaComponent(0.75)
+        return stackView
+    }()
+    
+    private lazy var fotoImageView: UIImageView = {
+        let image = UIImage(named: "Avatar")
+        let size = CGSize(width: 100, height: 100)
+        
+        let imageView = UIImageView(image: image)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFill
+        imageView.constrainSize(to: size)
+        imageView.layer.masksToBounds = true
+        imageView.layer.cornerRadius = size.width / 2
+        return imageView
+    }()
+    
+    private lazy var fotoWrapperStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [
+            fotoImageView,
+        ])
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.alignment = .center
+        stackView.distribution = .fill
+        return stackView
+    }()
+    
+    private lazy var fotoTextField: UITextField.Valido = {
+        let field = UITextField.Valido(rotulo: "foto do autor", aplicando: [
+            .naoVazio, .urlValida
+        ])
+        field.translatesAutoresizingMaskIntoConstraints = false
+        field.textColor = .secondaryLabel
+        field.font = .systemFont(ofSize: 14)
+        field.placeholder = "https://domain.com/photos/photo.png"
+        field.borderStyle = .roundedRect
+        field.addTarget(self, action: #selector(fotoTextFieldEditingDidEnd(_:)), for: .editingDidEnd)
+        validador.adiciona(field)
+        return field
+    }()
+    
+    private lazy var fotoInputView: InputView = {
+        let inputView = InputView()
+        inputView.translatesAutoresizingMaskIntoConstraints = false
+        inputView.titulo = "Foto:"
+        inputView.input = fotoTextField
+        return inputView
+    }()
+    
+    private lazy var nomeTextField: UITextField.Valido = {
+        let field = UITextField.Valido(rotulo: "nome", aplicando: [
+            .naoVazio, .min(length: 5), .nomeCompletoValido
+        ])
+        field.translatesAutoresizingMaskIntoConstraints = false
+        field.textColor = .secondaryLabel
+        field.font = .systemFont(ofSize: 14)
+        field.placeholder = "Autor do Livro"
+        field.borderStyle = .roundedRect
+        validador.adiciona(field)
+        return field
+    }()
+    
+    private lazy var nomeInputView: InputView = {
+        let inputView = InputView()
+        inputView.translatesAutoresizingMaskIntoConstraints = false
+        inputView.titulo = "Nome:"
+        inputView.input = nomeTextField
+        return inputView
+    }()
+    
+    private lazy var bioTextField: UITextField.Valido = {
+        let field = UITextField.Valido(rotulo: "bio do autor", aplicando: [.naoVazio, .min(length: 140)])
+        field.translatesAutoresizingMaskIntoConstraints = false
+        field.textColor = .secondaryLabel
+        field.font = .systemFont(ofSize: 14)
+        field.placeholder = "Descrição do autor em poucas palavras"
+        field.borderStyle = .roundedRect
+        validador.adiciona(field)
+        return field
+    }()
+    
+    private lazy var bioInputView: InputView = {
+        let inputView = InputView()
+        inputView.translatesAutoresizingMaskIntoConstraints = false
+        inputView.titulo = "Bio:"
+        inputView.input = bioTextField
+        return inputView
+    }()
+    
+    private lazy var tecnologiasTableView: TecnologiasTableView = {
+        let tableView = TecnologiasTableView(frame: .zero, style: .plain)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.dataSource = self
+        tableView.register(TecnologiaViewCell.self, forCellReuseIdentifier: TecnologiaViewCell.reuseId)
+        tableView.adicionarAction = UIAction { [weak self] _ in
+            self?.navegaParaFormNovaTecnologia()
+        }
+        return tableView
+    }()
+    
+    private lazy var tecnologiasStackView: UIStackView = {
+        let label: UILabel = {
+            let label = UILabel.Span()
+            label.translatesAutoresizingMaskIntoConstraints = false
+            label.text = "Tecnologias:"
+            return label
+        }()
+        
+        let stackView = UIStackView(arrangedSubviews: [
+            label,
+            tecnologiasTableView,
+        ])
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.alignment = .fill
+        stackView.distribution = .fill
+        stackView.spacing = 8
+        return stackView
+    }()
+    
+    private lazy var formStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [
+            fotoInputView,
+            nomeInputView,
+            bioInputView,
+            tecnologiasStackView,
+        ])
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.alignment = .fill
+        stackView.distribution = .fill
+        stackView.spacing = 16
+        return stackView
+    }()
+    
+    private lazy var submitButton: UIButton = {
+        var container = AttributeContainer()
+        container.font = .systemFont(ofSize: 14, weight: .bold)
+
+        var configuration = UIButton.Configuration.filled()
+        configuration.attributedTitle = AttributedString("Adicionar Autor", attributes: container)
+        configuration.baseBackgroundColor = .texasRose
+        configuration.cornerStyle = .capsule
+
+        let button = UIButton(configuration: configuration)
+        button.translatesAutoresizingMaskIntoConstraints = false
+
+        button.addTarget(self, action: #selector(botaoSalvarPressionado(_:)), for: .touchUpInside)
+        button.constrainHeight(to: 48)
+        return button
+    }()
+    
+    private lazy var contentContainerStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [
+            fotoWrapperStackView,
+            formStackView,
+            submitButton,
+        ])
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.alignment = .fill
+        stackView.distribution = .fill
+        stackView.spacing = 20
+        stackView.isLayoutMarginsRelativeArrangement = true
+        stackView.layoutMargins = .init(top: 0, left: 20, bottom: 20, right: 20)
+        return stackView
+    }()
+    
+    private lazy var containerStackView: UIStackView = {
+        var margins = UIEdgeInsets.zero
+        margins.bottom = 32
+        
+        let stackView = UIStackView(arrangedSubviews: [
+            logoWrapperStackView,
+            contentContainerStackView,
+        ])
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.alignment = .fill
+        stackView.distribution = .fill
+        stackView.spacing = 16
+        stackView.isLayoutMarginsRelativeArrangement = true
+        stackView.layoutMargins = margins
+        return stackView
+    }()
+    
+    private lazy var scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.addSubview(containerStackView)
+        return scrollView
+    }()
+    
+    // MARK: - Properties
+    private var validador = Validador()
     
     var autoresAPI: AutoresAPI?
     
     weak var delegate: NovoAutorViewControllerDelegate?
     
-    var tecnologias: [String] = [] {
-        didSet {
-            tecnologiasTableView.reloadData()
-        }
+    var tecnologias: [String] = []
+    
+    // MARK: - Lifecycle
+    override func loadView() {
+        super.loadView()
+        setup()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
     }
 
-    @IBAction func fotoTextFieldEditingDidEnd(_ sender: UITextField) {
+    @objc func fotoTextFieldEditingDidEnd(_ sender: UITextField) {
         guard let urlString = sender.text, let url = URL(string: urlString) else {
             return
         }
@@ -45,51 +252,26 @@ class NovoAutorViewController: UIViewController {
                                            animated: true)
     }
     
-    @IBAction func botaoSalvarPressionado(_ sender: UIButton) {
-        switch formularioEhValido() {
-            
-        case (false, let mensagem):
-            UIAlertController.showError(mensagem!, in: self)
-            
-        default:
-            cadastraAutor()
+    @objc func botaoSalvarPressionado(_ sender: UIButton) {
+        guard validador.estadoEhValido() else {
+            UIAlertController.showError(validador.mensagemPadrao!, in: self)
+            return
         }
-    }
-    
-    private func nomeDeAutorValido(_ nome: String) -> Bool {
-        let pattern = #"^[a-zA-Z-]+ ?.* [a-zA-Z-]+$"#
-        return NSPredicate(format: "SELF MATCHES %@", pattern).evaluate(with: nome)
+        
+        if tecnologias.isEmpty {
+            let mensagem = "Adicione ao menos uma tecnologia sobre a qual o(a) autor(a) escreve."
+            UIAlertController.showError(mensagem, in: self)
+            
+            return
+        }
+
+        cadastraAutor()
     }
     
     private func separa(nomeDeAutor: String) -> (String, String) {
         let separador = " "
         let nomeCompleto = nomeDeAutor.components(separatedBy: separador)
         return (nomeCompleto.first!, nomeCompleto.dropFirst().joined(separator: separador))
-    }
-    
-    private func formularioEhValido() -> (Bool, MensagemDeValidacao?) {
-        guard let urlString = fotoTextField.text,
-              let _ = URL(string: urlString) else {
-            return (false, "Informe a URL da foto do autor")
-        }
-        
-        guard let nome = nomeTextField.text, !nome.isEmpty else {
-            return (false, "Nome não pode estar em branco")
-        }
-
-        guard nomeDeAutorValido(nome) else {
-            return (false, "Informe o nome completo do autor.")
-        }
-        
-        if let bio = bioTextField.text, bio.isEmpty {
-            return (false, "A bio do autor não pode estar em branco")
-        }
-        
-        if tecnologias.isEmpty {
-            return (false, "Informe ao menos uma tecnologia sobre a qual este autor escreve.")
-        }
-        
-        return (true, nil)
     }
     
     func cadastraAutor() {
@@ -114,16 +296,38 @@ class NovoAutorViewController: UIViewController {
         }
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard segue.identifier == "verCampoNovaTecnologiaSegue" else { return }
+    func navegaParaFormNovaTecnologia() {
+        let controller = NovaTecnologiaViewController()
+        controller.delegate = self
         
-        guard let destinationController = segue.destination as? NovaTecnologiaViewController else {
-            fatalError("Não foi possível executar segue \(segue.identifier!)")
-        }
-        
-        destinationController.delegate = self
+        present(controller, animated: true)
     }
 
+}
+
+// MARK: - View code conformance
+extension NovoAutorViewController: ViewCode {
+    
+    func customizeAppearance() {
+        view.backgroundColor = .pampas
+    }
+    
+    func addSubviews() {
+        view.addSubview(scrollView)
+    }
+    
+    func addLayoutConstraints() {
+        scrollView.constrainTo(edgesOf: self.view)
+        
+        containerStackView.constrainToTopAndSides(of: scrollView)
+        let bottomConstraint = containerStackView.constrainToBottom(of: scrollView)
+        bottomConstraint.priority = .defaultLow
+        
+        containerStackView.anchorToCenterX(of: scrollView)
+        let centerYConstraint =  containerStackView.anchorToCenterY(of: scrollView)
+        centerYConstraint.priority = .defaultLow
+    }
+    
 }
 
 // MARK: - Handles NovaTecnologiaViewController delegation
@@ -131,6 +335,9 @@ extension NovoAutorViewController: NovaTecnologiaViewControllerDelegate {
    
     func novaTecnologiaViewController(_ controller: NovaTecnologiaViewController, adicionou tecnologia: String) {
         tecnologias.append(tecnologia)
+        
+        let path = IndexPath(row: tecnologias.count - 1, section: .zero)
+        tecnologiasTableView.insertRows(at: [path], with: .automatic)
     }
     
 }
@@ -143,7 +350,7 @@ extension NovoAutorViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let celula = tableView.dequeueReusableCell(withIdentifier: "TecnologiaViewCell", for: indexPath) as? TecnologiaViewCell else {
+        guard let celula = tableView.dequeueReusableCell(withIdentifier: TecnologiaViewCell.reuseId, for: indexPath) as? TecnologiaViewCell else {
             fatalError("Não foi possível obter célula para a tecnologia do autor em NovoAutor")
         }
         

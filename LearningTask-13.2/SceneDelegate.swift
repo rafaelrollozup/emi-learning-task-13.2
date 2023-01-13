@@ -16,7 +16,9 @@ import UIKit
  * * email: "admin@casadocodigo.com.br"
  * * senha: "123456"
  */
-let tokenValue = "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJDYXNhIGRvIEPDs2RpZ28gQVBJIiwic3ViIjoiMiIsImlhdCI6MTY3MTI5NzQ2NSwiZXhwIjoxNjcxOTAyMjY1fQ.0UzD1zdhUZMzcFTVTkyDJslJctl3IZCfZ23zBmxMKmg"
+let tokenValue = "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJDYXNhIGRvIEPDs2RpZ28gQVBJIiwic3ViIjoiMiIsImlhdCI6MTY3NDY2MTkyNSwiZXhwIjoxNjc1MjY2NzI1fQ.BR-hPt_GNnodu6J14xSdAHaYwYGf5dlDlajUewNCjxk"
+
+
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -26,9 +28,27 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-        guard let _ = (scene as? UIWindowScene) else { return }
         
-        // MARK: - simulação de um login
+        // MARK: - Setup
+        guard let scene = (scene as? UIWindowScene) else { return }
+        
+        let window = UIWindow(frame: scene.coordinateSpace.bounds)
+        window.windowScene = scene
+        
+        self.window = window
+        
+        let autoresAPI = AutoresAPI()
+        let livrosAPI = LivrosAPI()
+        
+        let tabBarControllerFactory = ApplicationTabBar(tabs: [
+            .livros: LivrosNavigation(livrosAPI: livrosAPI, autoresAPI: autoresAPI),
+            .autores : AutoresNavigation(livrosAPI: livrosAPI, autoresAPI: autoresAPI)
+        ])
+        
+        window.rootViewController = tabBarControllerFactory.constroi()
+        window.makeKeyAndVisible()
+        
+        // MARK: simulação de login
         let authentication = Authentication(
             token: tokenValue,
             user: .init(
@@ -41,20 +61,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let userAuthentication = UserAuthentication()
         userAuthentication.set(authentication)
         
-        // MARK: - Setup
-        let autoresAPI = AutoresAPI()
-        let livrosAPI = LivrosAPI()
-        
-        let tabBarController = window!.rootViewController as! UITabBarController
-        
-        let livrosListViewController = (tabBarController.viewControllers![0] as! UINavigationController).topViewController as! LivrosListViewController
-        livrosListViewController.livrosAPI = livrosAPI
-        livrosListViewController.autoresAPI = autoresAPI
-        
-        let autoresListViewController = (tabBarController.viewControllers![1] as! UINavigationController).viewControllers.first as! AutoresListViewController
-        
-        autoresListViewController.autoresAPI = autoresAPI
-        autoresListViewController.livrosAPI = livrosAPI
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

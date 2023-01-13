@@ -8,84 +8,111 @@
 import UIKit
 
 class LivroViewController: UIViewController {
-
-    @IBOutlet private weak var tituloLabel: UILabel!
-    @IBOutlet private weak var subtituloLabel: UILabel!
-    @IBOutlet private weak var nomeDoAutorLabel: UILabel!
     
-    @IBOutlet private weak var capaImageView: UIImageView!
+    // MARK: - Subviews
+    private lazy var livroHeaderView: LivroHeaderView = {
+        let view = LivroHeaderView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
     
-    @IBOutlet private weak var precoEbookLabel: UILabel!
-    @IBOutlet private weak var precoImpressoLabel: UILabel!
-    @IBOutlet private weak var precoComboLabel: UILabel!
+    private lazy var precosView: PrecosDoLivroView = {
+        let view = PrecosDoLivroView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.delegate = self
+        return view
+    }()
     
-    @IBOutlet private weak var descricaoLabel: UILabel!
+    private lazy var detalhesDoLivroView: DetalhesDoLivroView = {
+        let view = DetalhesDoLivroView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
     
-    @IBOutlet private weak var fotoAutorLabel: UIImageView!
-    @IBOutlet private weak var nomeAutorLabel: UILabel!
-    @IBOutlet private weak var bioAutorLabel: UILabel!
+    private lazy var contentContainerStackView: UIStackView = {
+        var margins = UIEdgeInsets.zero
+        margins.bottom = 32
+        
+        let stackView = UIStackView(arrangedSubviews: [
+            livroHeaderView,
+            precosView,
+            detalhesDoLivroView,
+        ])
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.alignment = .fill
+        stackView.distribution = .fill
+        stackView.isLayoutMarginsRelativeArrangement = true
+        stackView.layoutMargins = margins
+        return stackView
+    }()
     
-    @IBOutlet private weak var paginasLabel: UILabel!
-    @IBOutlet private weak var isbnLabel: UILabel!
-    @IBOutlet private weak var dataLancamentoLabel: UILabel!
+    private lazy var scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.addSubview(contentContainerStackView)
+        return scrollView
+    }()
     
     var livro: Livro!
+    
+    override func loadView() {
+        super.loadView()
+        setup()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         applyTheme()
-        // Do any additional setup after loading the view.
         
         atualizaView(com: livro)
     }
 
     func atualizaView(com livro: Livro) {
-        tituloLabel.text = livro.titulo
-        subtituloLabel.text = livro.subtitulo
-        nomeDoAutorLabel.text = livro.autor.nomeCompleto
-        capaImageView.setImageByDowloading(url: livro.imagemDeCapaURI,
-                                           placeholderImage: .init(named: "Book"))
-    
-        livro.precos.forEach { preco in
-            let valor = NumberFormatter.formatToCurrency(decimal: preco.valor)
-            switch preco.tipoDeLivro {
-            case .ebook:
-                precoEbookLabel.text = valor
-            case .impresso:
-                precoImpressoLabel.text = valor
-            case .combo:
-                precoComboLabel.text = valor
-            }
-        }
-        
-        descricaoLabel.text = livro.descricao
-        
-        fotoAutorLabel.setImageByDowloading(url: livro.autor.fotoURI,
-                                            placeholderImage: .init(named: "Avatar"))
-        nomeAutorLabel.text = livro.autor.nomeCompleto
-        bioAutorLabel.text = livro.autor.bio
-        
-        paginasLabel.text = String(describing: livro.numeroDePaginas)
-        isbnLabel.text = livro.isbn
-        dataLancamentoLabel.text = DateFormatter.format(date: livro.dataDePublicacao,
-                                                        to: .dayMonthAndYear)
+        livroHeaderView.livro = livro
+        precosView.livro = livro
+        detalhesDoLivroView.livro = livro
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard segue.identifier == "abrirCarrinhoComLivroSegue" else { return }
+    func navegaParaCarrinho(com livro: Livro, doTipo tipoDeLivro: TipoDeLivro) {
+        let carrinho = Carrinho.constroi(com: livro, doTipo: tipoDeLivro)
         
-        guard let botaoComprar = sender as? UIButton,
-              let controller = segue.destination as? CarrinhoViewController else {
-            fatalError("Não foi possível executar segue \(segue.identifier!)")
-        }
+        let controller = CarrinhoViewController()
+        controller.carrinho = carrinho
         
-        guard let tipoSelecionado = TipoDeLivro.allCases
-            .filter({ $0.index == botaoComprar.tag }).first else {
-            fatalError("Não foi possível determinar a opção de tipo de livro ao processar a segue \(segue.identifier!)")
-        }
-        
-        controller.carrinho = Carrinho.constroi(com: livro, doTipo: tipoSelecionado)
+        navigationController?.present(controller, animated: true)
     }
     
 }
 
+extension LivroViewController: ViewCode {
+    
+    func customizeAppearance() {
+        view.backgroundColor = .pampas
+    }
+    
+    func addSubviews() {
+        view.addSubview(scrollView)
+    }
+    
+    func addLayoutConstraints() {
+        scrollView.constrainTo(safeEdgesOf: view)
+        
+        contentContainerStackView.constrainToTopAndSides(of: scrollView)
+        let bottomConstraint = contentContainerStackView.constrainToBottom(of: scrollView)
+        bottomConstraint.priority = .defaultLow
+        
+        contentContainerStackView.anchorToCenterX(of: scrollView)
+        let centerYConstraint =  contentContainerStackView.anchorToCenterY(of: scrollView)
+        centerYConstraint.priority = .defaultLow
+    }
+    
+}
+
+extension LivroViewController: PrecosDoLivroViewDelegate {
+    
+    func precosDoLivroView(_ view: PrecosDoLivroView, selecionouTipo tipoDeLivro: TipoDeLivro) {
+        navegaParaCarrinho(com: livro, doTipo: tipoDeLivro)
+    }
+    
+}

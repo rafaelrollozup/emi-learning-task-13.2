@@ -8,32 +8,64 @@
 import UIKit
 
 class CarrinhoViewController: UIViewController {
-
-    @IBOutlet private weak var produtosTableView: UITableView!
-    @IBOutlet private weak var totalLabel: UILabel!
     
-    var carrinho: Carrinho? {
-        didSet {
-            guard isViewLoaded, let carrinho = carrinho else { return }
-            atualizaViews(com: carrinho)
-        }
+    private lazy var produtosTableView: UITableView = {
+        let tableView = UITableView(frame: .zero, style: .plain)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.register(ItemDeCompraTableViewCell.self, forCellReuseIdentifier: ItemDeCompraTableViewCell.reuseId)
+        tableView.register(CarrinhoSectionHeaderView.self,
+                           forHeaderFooterViewReuseIdentifier: CarrinhoSectionHeaderView.reuseId)
+        tableView.sectionHeaderHeight = CarrinhoSectionHeaderView.alturaBase
+        tableView.sectionHeaderTopPadding = 0
+        tableView.backgroundColor = .pampas
+        return tableView
+    }()
+    
+    private lazy var totalLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .label
+        label.font = .systemFont(ofSize: 20, weight: .regular)
+        label.textAlignment = .center
+        return label
+    }()
+    
+    private lazy var footerStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [
+            totalLabel,
+        ])
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .horizontal
+        stackView.alignment = .fill
+        stackView.distribution = .fill
+        stackView.constrainHeight(to: 44)
+        return stackView
+    }()
+    
+    private lazy var containerStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [
+            produtosTableView,
+            footerStackView,
+        ])
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.alignment = .fill
+        stackView.distribution = .fill
+        return stackView
+    }()
+    
+    var carrinho: Carrinho!
+    
+    override func loadView() {
+        super.loadView()
+        setup()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        
-        setupViews()
-        
-        if let carrinho = carrinho {
-            atualizaViews(com: carrinho)
-        }
-    }
-    
-    private func setupViews() {
-        produtosTableView.register(CarrinhoSectionHeaderView.self, forHeaderFooterViewReuseIdentifier: CarrinhoSectionHeaderView.reuseId)
-        produtosTableView.sectionHeaderHeight = CarrinhoSectionHeaderView.alturaBase
-        produtosTableView.sectionHeaderTopPadding = 0
+        atualizaViews(com: carrinho)
     }
     
     private func atualizaViews(com carrinho: Carrinho) {
@@ -43,10 +75,26 @@ class CarrinhoViewController: UIViewController {
 
 }
 
+extension CarrinhoViewController: ViewCode {
+    
+    func customizeAppearance() {
+        view.backgroundColor = .rum
+    }
+    
+    func addSubviews() {
+        view.addSubview(containerStackView)
+    }
+    
+    func addLayoutConstraints() {
+        containerStackView.constrainTo(safeEdgesOf: self.view)
+    }
+    
+}
+
 extension CarrinhoViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return carrinho?.itens.count ?? 0
+        return carrinho.itens.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -54,7 +102,7 @@ extension CarrinhoViewController: UITableViewDataSource {
             fatalError("Não foi possível obter célula para o item de compra do carrinho")
         }
         
-        celula.itemDeCompra = carrinho!.itens[indexPath.row]
+        celula.itemDeCompra = carrinho.itens[indexPath.row]
         return celula
     }
 

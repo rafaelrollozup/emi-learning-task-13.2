@@ -8,7 +8,7 @@
 import UIKit
 
 // MARK: - Componente
-@IBDesignable class ListaDeItensHorizontal: UIView {
+class ListaDeItensHorizontal: UIView {
     
     // MARK: Subviews
     private lazy var tituloLabel: UILabel = {
@@ -63,29 +63,11 @@ import UIKit
         super.init(frame: frame)
         setup()
     }
-
+    
     required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        setup()
+        fatalError("init(coder:) has not been implemented")
     }
     
-    private func setup() {
-        addViews()
-        addConstraints()
-    }
-    
-    private func addViews() {
-        addSubview(containerView)
-    }
-    
-    private func addConstraints() {
-        NSLayoutConstraint.activate([
-            containerView.topAnchor.constraint(equalTo: self.topAnchor),
-            containerView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            containerView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            containerView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-        ])
-    }
     
     // MARK: API pública
     var titulo: String? {
@@ -111,6 +93,19 @@ import UIKit
     
 }
 
+// MARK: - Setup View Code
+extension ListaDeItensHorizontal: ViewCode {
+    
+    func addSubviews() {
+        addSubview(containerView)
+    }
+    
+    func addLayoutConstraints() {
+        containerView.constrainTo(edgesOf: self)
+    }
+    
+}
+
 // MARK: - Gestão da fonte de dados
 extension ListaDeItensHorizontal: UICollectionViewDataSource {
     
@@ -130,6 +125,7 @@ extension ListaDeItensHorizontal: UICollectionViewDataSource {
         
 }
 
+// MARK: - Customização do objeto de layout
 extension ListaDeItensHorizontal: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
@@ -145,7 +141,8 @@ extension ListaDeItensHorizontal: UICollectionViewDelegateFlowLayout {
         return size
     }
 }
-    
+ 
+// MARK: - Componente de Item
 fileprivate class ItemViewCell: UICollectionViewCell {
     static var reuseId: String {
         return String(describing: self)
@@ -174,28 +171,6 @@ fileprivate class ItemViewCell: UICollectionViewCell {
         setup()
     }
     
-    private func setup() {
-        addTheme()
-        addViews()
-        addConstraints()
-    }
-    
-    private func addTheme() {
-        backgroundColor = .texasRose
-        layer.cornerRadius = 8
-    }
-    
-    private func addViews() {
-        addSubview(label)
-    }
-
-    private func addConstraints() {
-        NSLayoutConstraint.activate([
-            label.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            label.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-        ])
-    }
-    
     fileprivate static func calculateMinCellSize(for label: String, in parent: UIView) -> CGSize? {
         let horizontalPadddingSize: CGFloat = 16
         let fontAttributes = [NSAttributedString.Key.font: ItemViewCell.font]
@@ -215,3 +190,19 @@ fileprivate class ItemViewCell: UICollectionViewCell {
     
 }
 
+extension ItemViewCell: ViewCode {
+    
+    func customizeAppearance() {
+        backgroundColor = .texasRose
+        layer.cornerRadius = 8
+    }
+    
+    func addSubviews() {
+        addSubview(label)
+    }
+
+    func addLayoutConstraints() {
+        label.anchorToCenter(of: self)
+    }
+    
+}

@@ -13,13 +13,31 @@ protocol SeletorDeAutorViewControllerDelegate: AnyObject {
 }
 
 class SeletorDeAutorViewController: UIViewController {
-    
-    static var identifier: String {
-        return String(describing: self)
-    }
 
-    @IBOutlet private weak var overlayActivityIndicator: UIActivityIndicatorView!
-    @IBOutlet private weak var tableView: UITableView!
+    // MARK: - Subviews
+    private lazy var overlayActivityIndicator: UIActivityIndicatorView = {
+        let view = UIActivityIndicatorView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.style = .large
+        view.color = .texasRose
+        view.startAnimating()
+        return view
+    }()
+    
+    private lazy var tableView: UITableView = {
+        let tableView = UITableView(frame: .zero, style: .plain)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.backgroundColor = .clear
+        tableView.register(SeletorDeAutorTableViewCell.self, forCellReuseIdentifier: SeletorDeAutorTableViewCell.reuseId)
+        tableView.register(TableSectionHeaderView.self,
+                           forHeaderFooterViewReuseIdentifier: TableSectionHeaderView.reuseId)
+        tableView.sectionHeaderHeight = TableSectionHeaderView.alturaBase
+        tableView.sectionHeaderTopPadding = 0
+        tableView.alpha = 0
+        return tableView
+    }()
     
     var autoresAPI: AutoresAPI?
     
@@ -37,21 +55,16 @@ class SeletorDeAutorViewController: UIViewController {
         }
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupViews()
-        
-        carregaAutores()
+    override func loadView() {
+        super.loadView()
+        setup()
     }
     
-    func setupViews() {
+    override func viewDidLoad() {
+        super.viewDidLoad()
         isModalInPresentation = true
         
-        tableView.register(TableSectionHeaderView.self, forHeaderFooterViewReuseIdentifier: TableSectionHeaderView.reuseId)
-        tableView.sectionHeaderHeight = TableSectionHeaderView.alturaBase
-        tableView.sectionHeaderTopPadding = 0
-        
-        tableView.alpha = 0
+        carregaAutores()
     }
     
     func carregaAutores() {
@@ -93,6 +106,24 @@ class SeletorDeAutorViewController: UIViewController {
         }
     }
 
+}
+
+// MARK: - View Code conformance
+extension SeletorDeAutorViewController: ViewCode {
+    
+    func customizeAppearance() {
+        view.backgroundColor = .pampas
+    }
+    
+    func addSubviews() {
+        view.addSubview(tableView)
+        view.addSubview(overlayActivityIndicator)
+    }
+    
+    func addLayoutConstraints() {
+        tableView.constrainTo(edgesOf: self.view)
+        overlayActivityIndicator.anchorToCenter(of: self.view)
+    }
 }
 
 // MARK: - TableView Data Source implementations

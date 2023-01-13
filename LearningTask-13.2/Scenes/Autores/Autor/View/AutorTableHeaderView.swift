@@ -14,21 +14,20 @@ class AutorTableHeaderView: UIView {
         return AutorTableHeaderView(com: frame, e: autor)
     }
     
+    // MARK: - Subviews
     private lazy var fotoImageView: UIView = {
         let tamanhoBase = CGSize.init(width: 120, height: 120)
     
         let imageView = UIImageView(frame: .init(origin: .zero, size: tamanhoBase))
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.setImageByDowloading(url: autor.fotoURI,
-                                       placeholderImage: .init(named: "Avatar"))
-        imageView.contentMode = .scaleAspectFit
+                                       placeholderImage: .init(named: "Avatar"),
+                                       animated: true)
+        imageView.contentMode = .scaleAspectFill
         imageView.layer.masksToBounds = true
         imageView.layer.cornerRadius = tamanhoBase.width / 2
         
-        NSLayoutConstraint.activate([
-            imageView.widthAnchor.constraint(equalToConstant: tamanhoBase.width),
-            imageView.heightAnchor.constraint(equalToConstant: tamanhoBase.height),
-        ])
+        imageView.constrainSize(to: tamanhoBase)
         
         let view = UIView()
         view.addSubview(imageView)
@@ -47,20 +46,17 @@ class AutorTableHeaderView: UIView {
     }()
     
     private lazy var nomeLabel: UILabel = {
-        let label = UILabel()
+        let label = UILabel.SecondaryTitle()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 22, weight: .light)
         label.textAlignment = .center
         label.text = autor.nomeCompleto
         return label
     }()
     
     private lazy var bioLabel: UILabel = {
-        let label = UILabel()
+        let label = UILabel.Paragraph()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 14, weight: .light)
         label.textAlignment = .center
-        label.numberOfLines = 0
         label.text = autor.bio
         return label
     }()
@@ -71,10 +67,7 @@ class AutorTableHeaderView: UIView {
         lista.titulo = "Escreve sobre:"
         lista.corDoTitulo = .secondaryLabel
         lista.itens = autor.tecnologias
-        
-        NSLayoutConstraint.activate([
-            lista.heightAnchor.constraint(equalToConstant: 56)
-        ])
+        lista.constrainHeight(to: 56)
         return lista
     }()
     
@@ -97,8 +90,10 @@ class AutorTableHeaderView: UIView {
         return stackview
     }()
 
+    // MARK: - Properties
     var autor: Autor
     
+    // MARK: - Lifecycle
     private init(com frame: CGRect, e autor: Autor) {
         self.autor = autor
         super.init(frame: frame)
@@ -109,23 +104,20 @@ class AutorTableHeaderView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setup() {
-        backgroundColor = .pampas
-        addViews()
-        addConstraints()
-    }
+}
 
-    private func addViews() {
+extension AutorTableHeaderView: ViewCode {
+    
+    func customizeAppearance() {
+        backgroundColor = .pampas
+    }
+    
+    func addSubviews() {
         addSubview(containerView)
     }
     
-    private func addConstraints() {
-        NSLayoutConstraint.activate([
-            containerView.topAnchor.constraint(equalTo: self.topAnchor),
-            containerView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            containerView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            containerView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-        ])
+    func addLayoutConstraints() {
+        containerView.constrainTo(edgesOf: self)
     }
+    
 }
-

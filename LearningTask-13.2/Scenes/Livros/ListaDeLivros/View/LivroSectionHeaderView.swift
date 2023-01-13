@@ -9,12 +9,39 @@ import UIKit
 
 class LivroSectionHeaderView: UICollectionReusableView {
     
-    @IBOutlet private weak var sectionTitleView: SectionTitleView!
+    private lazy var sectionTitleView: SectionTitleView = {
+        let view = SectionTitleView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
     
     var titulo: String? {
         didSet {
             sectionTitleView.texto = titulo
         }
     }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setup()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
 }
 
+extension LivroSectionHeaderView: ReusableView {}
+
+extension LivroSectionHeaderView: ViewCode {
+    
+    func addSubviews() {
+        addSubview(sectionTitleView)
+    }
+    
+    func addLayoutConstraints() {
+        sectionTitleView.constrainTo(edgesOf: self)
+    }
+    
+}

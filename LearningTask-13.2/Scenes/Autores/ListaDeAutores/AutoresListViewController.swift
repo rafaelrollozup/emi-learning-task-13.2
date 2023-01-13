@@ -7,34 +7,50 @@
 
 import UIKit
 
-class AutoresListViewController: UITableViewController {
+class AutoresListViewController: UIViewController {
     
-    private enum Segues: String {
-        case verDetalhesDoAutor = "verDetalhesDoAutorSegue"
-        case verFormNovoAutor = "verFormNovoAutorSegue"
-    }
+    private lazy var tableView: UITableView = {
+        let tableView = UITableView(frame: .zero, style: .plain)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.backgroundColor = .pampas
+        tableView.register(AutorTableViewCell.self, forCellReuseIdentifier: AutorTableViewCell.reuseId)
+        tableView.register(TableSectionHeaderView.self,
+                           forHeaderFooterViewReuseIdentifier: TableSectionHeaderView.reuseId)
+        tableView.sectionHeaderHeight = TableSectionHeaderView.alturaBase
+        tableView.sectionHeaderTopPadding = 0
+        return tableView
+    }()
 
     var autoresAPI: AutoresAPI?
     var livrosAPI: LivrosAPI?
     
     var autores: [Autor] = []
     
+    override func loadView() {
+        super.loadView()
+        setup()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         applyTheme()
-        // Do any additional setup after loading the view.
-    
         setupViews()
+        
         carregaAutores()
     }
-
-    private func setupViews() {
-        tableView.register(TableSectionHeaderView.self, forHeaderFooterViewReuseIdentifier: TableSectionHeaderView.reuseId)
-        tableView.sectionHeaderHeight = TableSectionHeaderView.alturaBase
-        tableView.sectionHeaderTopPadding = 0
+    
+    func setupViews() {
+        let buttonItem = UIBarButtonItem(barButtonSystemItem: .add,
+                                         target: self,
+                                         action: #selector(navegaParaFormNovoAutor))
+        buttonItem.tintColor = .white
+        
+        navigationItem.setRightBarButton(buttonItem, animated: true)
     }
     
-    private func carregaAutores() {
+    func carregaAutores() {
         autoresAPI?.listaTodos(completionHandler: { [weak self] result in
             switch result {
             case .success(let autores):
@@ -48,36 +64,33 @@ class AutoresListViewController: UITableViewController {
         })
     }
 
-    // MARK: Navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let segueId = segue.identifier,
-              let expectedSegue = AutoresListViewController.Segues(rawValue: segueId) else { return }
-    
-        switch expectedSegue {
-        case .verDetalhesDoAutor:
-            prepareForDetalhesDoAutor(segue, sender)
-        case .verFormNovoAutor:
-            prepareForFormNovoAutor(segue, sender)
-        }
+    func navegaParaDetalhes(de autor: Autor) {
+        let controller = AutorViewController()
+        controller.livrosAPI = livrosAPI
+        controller.autor = autor
+        
+        navigationController?.pushViewController(controller, animated: true)
     }
     
-    private func prepareForDetalhesDoAutor(_ segue: UIStoryboardSegue, _ sender: Any?) {
-        guard let celula = sender as? AutorTableViewCell,
-              let autorViewController = segue.destination as? AutorViewController else {
-            fatalError("Não foi possível executar segue \(segue.identifier!)")
-        }
-    
-        autorViewController.livrosAPI = livrosAPI
-        autorViewController.autor = celula.autor
+    @objc func navegaParaFormNovoAutor() {
+        let controller = NovoAutorViewController()
+        controller.delegate = self
+        controller.autoresAPI = autoresAPI
+        
+        present(controller, animated: true)
     }
     
-    private func prepareForFormNovoAutor(_ segue: UIStoryboardSegue, _ sender: Any?) {
-        guard let novoAutorViewController = segue.destination as? NovoAutorViewController else {
-            fatalError("Não foi possível executar segue \(segue.identifier!)")
-        }
+}
+
+// MARK: - View code conformance
+extension AutoresListViewController: ViewCode {
     
-        novoAutorViewController.delegate = self
-        novoAutorViewController.autoresAPI = autoresAPI
+    func addSubviews() {
+        view.addSubview(tableView)
+    }
+    
+    func addLayoutConstraints() {
+        tableView.constrainTo(edgesOf: self.view)
     }
     
 }
@@ -92,13 +105,13 @@ extension AutoresListViewController: NovoAutorViewControllerDelegate {
 }
 
 // MARK: - UITableViewDataSource Implementations
-extension AutoresListViewController {
+extension AutoresListViewController: UITableViewDataSource {
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return autores.count
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "AutorTableViewCell", for: indexPath) as? AutorTableViewCell else {
             fatalError("Não foi possível obter celula para a lista de autores")
         }
@@ -116,13 +129,16 @@ extension AutoresListViewController {
 }
 
 // MARK: - UITableViewDelegate Implementations
-extension AutoresListViewController {
+extension AutoresListViewController: UITableViewDelegate {
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        let autor = autores[indexPath.row]
+        navegaParaDetalhes(de: autor)
     }
     
-    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: TableSectionHeaderView.reuseId) as? TableSectionHeaderView else {
             fatalError("Não foi possível obter view de header para a lista de autores.")
         }

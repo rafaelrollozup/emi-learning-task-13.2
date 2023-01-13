@@ -9,10 +9,6 @@ import UIKit
 
 class CarrinhoSectionHeaderView: UITableViewHeaderFooterView {
     
-    static var reuseId: String {
-        return String(describing: self)
-    }
-    
     static var alturaBase: CGFloat {
         return SectionTitleView.alturaBase
     }
@@ -37,30 +33,23 @@ class CarrinhoSectionHeaderView: UITableViewHeaderFooterView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    private func setup() {
-        addTheme()
-        addViews()
-        addConstraints()
-    }
-    
-    private func addTheme() {
-        contentView.backgroundColor = .texasRose.withAlphaComponent(0.75)
-    }
-    
-    private func addViews() {
-        addSubview(sectionTitleView)
-    }
-    
-    private func addConstraints() {
-        NSLayoutConstraint.activate([
-            sectionTitleView.topAnchor.constraint(equalTo: self.topAnchor),
-            sectionTitleView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            sectionTitleView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            sectionTitleView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-        ])
-    }
 
 }
 
+extension CarrinhoSectionHeaderView: ReusableView {}
 
+extension CarrinhoSectionHeaderView: ViewCode {
+    
+    func customizeAppearance() {
+        contentView.backgroundColor = .texasRose.withAlphaComponent(0.75)
+    }
+    
+    func addSubviews() {
+        addSubview(sectionTitleView)
+    }
+    
+    func addLayoutConstraints() {
+        sectionTitleView.constrainTo(edgesOf: self)
+    }
+    
+}

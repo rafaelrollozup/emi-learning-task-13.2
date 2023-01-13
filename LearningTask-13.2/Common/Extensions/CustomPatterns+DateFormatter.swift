@@ -36,7 +36,7 @@ extension DateFormatter {
 extension Date {
     
     static func from(_ dateString: String, using format: DateFormatter.CustomPattern) -> Date? {
-        return format.formatter.date(from: dateString)!
+        return format.formatter.date(from: dateString)
     }
     
 }

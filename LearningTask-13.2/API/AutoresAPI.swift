@@ -7,11 +7,6 @@
 
 import Foundation
 
-/**
- Componente cliente da api de autores da casa do código.
- Implementação atual apenas simula um carregamento.
- Integrações com serviços HTTP estão fora do escopo da atividade atual e será tema mais a frente
- */
 class AutoresAPI {
     
     private let userAuthentication: UserAuthentication

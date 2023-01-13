@@ -9,12 +9,34 @@ import UIKit
 
 class SeletorDeAutorTableViewCell: UITableViewCell {
 
-    @IBOutlet private weak var radioImageView: UIImageView!
-    @IBOutlet private weak var autorLabel: UILabel!
+    private lazy var radioImageView: UIImageView = {
+        let image = UIImage(systemName: "circle")
+        let imageView = UIImageView(image: image)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.tintColor = .texasRose
+        imageView.constrainSize(to: .init(width: 32, height: 32))
+        return imageView
+    }()
     
-    static var reuseId: String {
-        return String(describing: self)
-    }
+    private lazy var autorLabel: UILabel = {
+        let label = UILabel.Span()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private lazy var contentContainerStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [
+            radioImageView, autorLabel,
+        ])
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .horizontal
+        stackView.alignment = .center
+        stackView.distribution = .fill
+        stackView.spacing = 16
+        stackView.isLayoutMarginsRelativeArrangement = true
+        stackView.layoutMargins = .init(top: 20, left: 20, bottom: 20, right: 20)
+        return stackView
+    }()
     
     var autor: Autor? {
         didSet {
@@ -22,6 +44,15 @@ class SeletorDeAutorTableViewCell: UITableViewCell {
             
             autorLabel.text = autor.nomeCompleto
         }
+    }
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setup()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     override func prepareForReuse() {
@@ -44,6 +75,25 @@ class SeletorDeAutorTableViewCell: UITableViewCell {
                 completionHandler()
             }
         }
+    }
+    
+}
+
+extension SeletorDeAutorTableViewCell: ReusableView {}
+
+extension SeletorDeAutorTableViewCell: ViewCode {
+    
+    func customizeAppearance() {
+        selectionStyle = .none
+        backgroundColor = .clear
+    }
+    
+    func addSubviews() {
+        addSubview(contentContainerStackView)
+    }
+    
+    func addLayoutConstraints() {
+        contentContainerStackView.constrainTo(edgesOf: self)
     }
     
 }

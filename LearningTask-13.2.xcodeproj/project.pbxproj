@@ -22,6 +22,12 @@
 		580C340D295092DC0099D5D9 /* NovoLivroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 580C340C295092DC0099D5D9 /* NovoLivroViewController.swift */; };
 		580C34102950A4BC0099D5D9 /* SeletorDeAutorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 580C340F2950A4BC0099D5D9 /* SeletorDeAutorViewController.swift */; };
 		580C34132950A4EE0099D5D9 /* SeletorDeAutorTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 580C34122950A4EE0099D5D9 /* SeletorDeAutorTableViewCell.swift */; };
+		58426B0629706ED600F547E5 /* ConstraintHelpers+UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58426B0529706ED600F547E5 /* ConstraintHelpers+UIView.swift */; };
+		58426B0B2970732A00F547E5 /* ViewCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58426B0A2970732A00F547E5 /* ViewCode.swift */; };
+		58426B2929783F9700F547E5 /* Navigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58426B2829783F9700F547E5 /* Navigation.swift */; };
+		58426B2B2978AF7F00F547E5 /* ReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58426B2A2978AF7F00F547E5 /* ReusableView.swift */; };
+		58426B2D2978C62F00F547E5 /* CapaImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58426B2C2978C62F00F547E5 /* CapaImageView.swift */; };
+		58426B2F297966BA00F547E5 /* OfertaDePrecoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58426B2E297966BA00F547E5 /* OfertaDePrecoView.swift */; };
 		5846DE8D288ED58800DF985F /* TecnologiaViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5846DE8C288ED58800DF985F /* TecnologiaViewCell.swift */; };
 		5846DE8F288EE59C00DF985F /* SimpleAlert+UIAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5846DE8E288EE59C00DF985F /* SimpleAlert+UIAlertController.swift */; };
 		5846DE92288EF33800DF985F /* NovaTecnologiaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5846DE91288EF33800DF985F /* NovaTecnologiaViewController.swift */; };
@@ -44,9 +50,18 @@
 		5881AC77288B24E400F9A9CC /* LivroDoAutorTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5881AC76288B24E400F9A9CC /* LivroDoAutorTableViewCell.swift */; };
 		5886757E294F0DC300356BBC /* NetworkUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5886757D294F0DC300356BBC /* NetworkUtils.swift */; };
 		58867580294F0DFB00356BBC /* HTTPRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5886757F294F0DFB00356BBC /* HTTPRequest.swift */; };
+		588F436E297F21880064343A /* DetalhesDoLivroView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588F436D297F21880064343A /* DetalhesDoLivroView.swift */; };
+		588F4370298052230064343A /* Validator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588F436F298052230064343A /* Validator.swift */; };
+		588F4374298066160064343A /* Validavel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588F4373298066160064343A /* Validavel.swift */; };
+		588F4376298066790064343A /* Validacao+UIInputs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588F4375298066790064343A /* Validacao+UIInputs.swift */; };
+		588F437929806D240064343A /* InputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588F437829806D240064343A /* InputView.swift */; };
+		588F437B2980DD7A0064343A /* CapitalizingFirst+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588F437A2980DD7A0064343A /* CapitalizingFirst+String.swift */; };
+		588F437D2981AE820064343A /* TecnologiasTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588F437C2981AE820064343A /* TecnologiasTableView.swift */; };
+		58ACEF93297C805200BFCA32 /* LivroHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58ACEF92297C805200BFCA32 /* LivroHeaderView.swift */; };
+		58ACEF95297C8D0800BFCA32 /* PrecosDoLivroView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58ACEF94297C8D0800BFCA32 /* PrecosDoLivroView.swift */; };
+		58ACEF97297C93E200BFCA32 /* SeparadorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58ACEF96297C93E200BFCA32 /* SeparadorView.swift */; };
 		58C67259288B0ECF00E8FD01 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C67258288B0ECF00E8FD01 /* AppDelegate.swift */; };
 		58C6725B288B0ECF00E8FD01 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C6725A288B0ECF00E8FD01 /* SceneDelegate.swift */; };
-		58C67260288B0ECF00E8FD01 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 58C6725E288B0ECF00E8FD01 /* Main.storyboard */; };
 		58C67262288B0ED200E8FD01 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 58C67261288B0ED200E8FD01 /* Assets.xcassets */; };
 		58C67265288B0ED200E8FD01 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 58C67263288B0ED200E8FD01 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
@@ -67,6 +82,12 @@
 		580C340C295092DC0099D5D9 /* NovoLivroViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NovoLivroViewController.swift; sourceTree = "<group>"; };
 		580C340F2950A4BC0099D5D9 /* SeletorDeAutorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeletorDeAutorViewController.swift; sourceTree = "<group>"; };
 		580C34122950A4EE0099D5D9 /* SeletorDeAutorTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeletorDeAutorTableViewCell.swift; sourceTree = "<group>"; };
+		58426B0529706ED600F547E5 /* ConstraintHelpers+UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ConstraintHelpers+UIView.swift"; sourceTree = "<group>"; };
+		58426B0A2970732A00F547E5 /* ViewCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewCode.swift; sourceTree = "<group>"; };
+		58426B2829783F9700F547E5 /* Navigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Navigation.swift; sourceTree = "<group>"; };
+		58426B2A2978AF7F00F547E5 /* ReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableView.swift; sourceTree = "<group>"; };
+		58426B2C2978C62F00F547E5 /* CapaImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapaImageView.swift; sourceTree = "<group>"; };
+		58426B2E297966BA00F547E5 /* OfertaDePrecoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfertaDePrecoView.swift; sourceTree = "<group>"; };
 		5846DE8C288ED58800DF985F /* TecnologiaViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TecnologiaViewCell.swift; sourceTree = "<group>"; };
 		5846DE8E288EE59C00DF985F /* SimpleAlert+UIAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SimpleAlert+UIAlertController.swift"; sourceTree = "<group>"; };
 		5846DE91288EF33800DF985F /* NovaTecnologiaViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NovaTecnologiaViewController.swift; sourceTree = "<group>"; };
@@ -89,10 +110,19 @@
 		5881AC76288B24E400F9A9CC /* LivroDoAutorTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LivroDoAutorTableViewCell.swift; sourceTree = "<group>"; };
 		5886757D294F0DC300356BBC /* NetworkUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkUtils.swift; sourceTree = "<group>"; };
 		5886757F294F0DFB00356BBC /* HTTPRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPRequest.swift; sourceTree = "<group>"; };
+		588F436D297F21880064343A /* DetalhesDoLivroView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetalhesDoLivroView.swift; sourceTree = "<group>"; };
+		588F436F298052230064343A /* Validator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Validator.swift; sourceTree = "<group>"; };
+		588F4373298066160064343A /* Validavel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Validavel.swift; sourceTree = "<group>"; };
+		588F4375298066790064343A /* Validacao+UIInputs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Validacao+UIInputs.swift"; sourceTree = "<group>"; };
+		588F437829806D240064343A /* InputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputView.swift; sourceTree = "<group>"; };
+		588F437A2980DD7A0064343A /* CapitalizingFirst+String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CapitalizingFirst+String.swift"; sourceTree = "<group>"; };
+		588F437C2981AE820064343A /* TecnologiasTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TecnologiasTableView.swift; sourceTree = "<group>"; };
+		58ACEF92297C805200BFCA32 /* LivroHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LivroHeaderView.swift; sourceTree = "<group>"; };
+		58ACEF94297C8D0800BFCA32 /* PrecosDoLivroView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrecosDoLivroView.swift; sourceTree = "<group>"; };
+		58ACEF96297C93E200BFCA32 /* SeparadorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeparadorView.swift; sourceTree = "<group>"; };
 		58C67255288B0ECF00E8FD01 /* LearningTask-13.2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "LearningTask-13.2.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		58C67258288B0ECF00E8FD01 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		58C6725A288B0ECF00E8FD01 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		58C6725F288B0ECF00E8FD01 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		58C67261288B0ED200E8FD01 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		58C67264288B0ED200E8FD01 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		58C67266288B0ED200E8FD01 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -131,6 +161,7 @@
 			isa = PBXGroup;
 			children = (
 				58089E46289AE6EE001F8607 /* LivroViewController.swift */,
+				58ACEF91297C7EED00BFCA32 /* View */,
 			);
 			path = Livro;
 			sourceTree = "<group>";
@@ -201,9 +232,20 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		58426B092970731900F547E5 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				58426B0A2970732A00F547E5 /* ViewCode.swift */,
+				58426B2A2978AF7F00F547E5 /* ReusableView.swift */,
+				588F4373298066160064343A /* Validavel.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
 		5846DE8B288ED56800DF985F /* View */ = {
 			isa = PBXGroup;
 			children = (
+				588F437C2981AE820064343A /* TecnologiasTableView.swift */,
 				5846DE8C288ED58800DF985F /* TecnologiaViewCell.swift */,
 			);
 			path = View;
@@ -238,7 +280,9 @@
 		5881AC4F288B1C7300F9A9CC /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				58426B092970731900F547E5 /* Protocols */,
 				5881AC50288B1C7900F9A9CC /* Extensions */,
+				588F436F298052230064343A /* Validator.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -251,6 +295,9 @@
 				586D6378294E1B2B0011076E /* ImageFetching+UIImageView.swift */,
 				580C3407294F27210099D5D9 /* CustomPatterns+DateFormatter.swift */,
 				580C3409294F2CE50099D5D9 /* DecodingFormattedDates+JSONCoding.swift */,
+				58426B0529706ED600F547E5 /* ConstraintHelpers+UIView.swift */,
+				588F4375298066790064343A /* Validacao+UIInputs.swift */,
+				588F437A2980DD7A0064343A /* CapitalizingFirst+String.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -261,6 +308,7 @@
 				58C67258288B0ECF00E8FD01 /* AppDelegate.swift */,
 				58C6725A288B0ECF00E8FD01 /* SceneDelegate.swift */,
 				5881AC54288B1CB700F9A9CC /* Theme.swift */,
+				58426B2829783F9700F547E5 /* Navigation.swift */,
 				58C67263288B0ED200E8FD01 /* LaunchScreen.storyboard */,
 				58C67266288B0ED200E8FD01 /* Info.plist */,
 			);
@@ -290,7 +338,6 @@
 		5881AC60288B1F3000F9A9CC /* View */ = {
 			isa = PBXGroup;
 			children = (
-				58C6725E288B0ECF00E8FD01 /* Main.storyboard */,
 				5881AC61288B1F5400F9A9CC /* Componentes */,
 			);
 			path = View;
@@ -302,6 +349,10 @@
 				58089E3E289AE660001F8607 /* SectionTitleView.swift */,
 				5881AC64288B1F9500F9A9CC /* TableSectionHeaderView.swift */,
 				5881AC62288B1F6E00F9A9CC /* ListaDeItensHorizontal.swift */,
+				58426B2C2978C62F00F547E5 /* CapaImageView.swift */,
+				58426B2E297966BA00F547E5 /* OfertaDePrecoView.swift */,
+				58ACEF96297C93E200BFCA32 /* SeparadorView.swift */,
+				588F437829806D240064343A /* InputView.swift */,
 			);
 			path = Componentes;
 			sourceTree = "<group>";
@@ -355,6 +406,16 @@
 			children = (
 				5881AC74288B24BF00F9A9CC /* AutorTableHeaderView.swift */,
 				5881AC76288B24E400F9A9CC /* LivroDoAutorTableViewCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		58ACEF91297C7EED00BFCA32 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				58ACEF92297C805200BFCA32 /* LivroHeaderView.swift */,
+				58ACEF94297C8D0800BFCA32 /* PrecosDoLivroView.swift */,
+				588F436D297F21880064343A /* DetalhesDoLivroView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -451,7 +512,6 @@
 			files = (
 				58C67265288B0ED200E8FD01 /* LaunchScreen.storyboard in Resources */,
 				58C67262288B0ED200E8FD01 /* Assets.xcassets in Resources */,
-				58C67260288B0ECF00E8FD01 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -463,6 +523,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				58089E3D289AE623001F8607 /* Carrinho.swift in Sources */,
+				588F437D2981AE820064343A /* TecnologiasTableView.swift in Sources */,
 				580C340D295092DC0099D5D9 /* NovoLivroViewController.swift in Sources */,
 				58089E4E289AE794001F8607 /* CarrinhoViewController.swift in Sources */,
 				5881AC70288B246600F9A9CC /* NovoAutorViewController.swift in Sources */,
@@ -471,22 +532,36 @@
 				5881AC5D288B1EF500F9A9CC /* AutoresAPI.swift in Sources */,
 				58089E3B289AE503001F8607 /* LivrosListViewController.swift in Sources */,
 				5881AC5F288B1F0500F9A9CC /* LivrosAPI.swift in Sources */,
+				588F437929806D240064343A /* InputView.swift in Sources */,
+				58426B2929783F9700F547E5 /* Navigation.swift in Sources */,
 				5881AC63288B1F6E00F9A9CC /* ListaDeItensHorizontal.swift in Sources */,
 				58089E3F289AE660001F8607 /* SectionTitleView.swift in Sources */,
 				58089E47289AE6EE001F8607 /* LivroViewController.swift in Sources */,
 				5881AC72288B248700F9A9CC /* AutorViewController.swift in Sources */,
+				58426B0629706ED600F547E5 /* ConstraintHelpers+UIView.swift in Sources */,
 				58089E53289AE7E0001F8607 /* ItemDeCompraTableViewCell.swift in Sources */,
+				58ACEF93297C805200BFCA32 /* LivroHeaderView.swift in Sources */,
 				5881AC77288B24E400F9A9CC /* LivroDoAutorTableViewCell.swift in Sources */,
+				58426B2D2978C62F00F547E5 /* CapaImageView.swift in Sources */,
+				588F4374298066160064343A /* Validavel.swift in Sources */,
 				5881AC58288B1EAF00F9A9CC /* Livro.swift in Sources */,
 				58089E49289AE717001F8607 /* Currency+NumberFormatter.swift in Sources */,
+				588F436E297F21880064343A /* DetalhesDoLivroView.swift in Sources */,
+				588F4370298052230064343A /* Validator.swift in Sources */,
 				586D6377294E1AFC0011076E /* ImageDownload.swift in Sources */,
 				5881AC5A288B1EC300F9A9CC /* Autor.swift in Sources */,
 				58089E42289AE697001F8607 /* LivroCollectionViewCell.swift in Sources */,
 				5881AC6E288B243B00F9A9CC /* AutorTableViewCell.swift in Sources */,
+				58ACEF95297C8D0800BFCA32 /* PrecosDoLivroView.swift in Sources */,
+				58ACEF97297C93E200BFCA32 /* SeparadorView.swift in Sources */,
 				58089E51289AE7C5001F8607 /* CarrinhoSectionHeaderView.swift in Sources */,
 				580C3408294F27210099D5D9 /* CustomPatterns+DateFormatter.swift in Sources */,
 				5881AC65288B1F9500F9A9CC /* TableSectionHeaderView.swift in Sources */,
+				58426B2B2978AF7F00F547E5 /* ReusableView.swift in Sources */,
 				58C67259288B0ECF00E8FD01 /* AppDelegate.swift in Sources */,
+				588F4376298066790064343A /* Validacao+UIInputs.swift in Sources */,
+				58426B0B2970732A00F547E5 /* ViewCode.swift in Sources */,
+				588F437B2980DD7A0064343A /* CapitalizingFirst+String.swift in Sources */,
 				5881AC6B288B240E00F9A9CC /* AutoresListViewController.swift in Sources */,
 				5865B860294E2C5500E6B23D /* UserAuthentication.swift in Sources */,
 				5846DE8D288ED58800DF985F /* TecnologiaViewCell.swift in Sources */,
@@ -496,6 +571,7 @@
 				58089E44289AE6A8001F8607 /* LivroSectionHeaderView.swift in Sources */,
 				5846DE92288EF33800DF985F /* NovaTecnologiaViewController.swift in Sources */,
 				580C34102950A4BC0099D5D9 /* SeletorDeAutorViewController.swift in Sources */,
+				58426B2F297966BA00F547E5 /* OfertaDePrecoView.swift in Sources */,
 				58C6725B288B0ECF00E8FD01 /* SceneDelegate.swift in Sources */,
 				58867580294F0DFB00356BBC /* HTTPRequest.swift in Sources */,
 				5886757E294F0DC300356BBC /* NetworkUtils.swift in Sources */,
@@ -507,14 +583,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		58C6725E288B0ECF00E8FD01 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				58C6725F288B0ECF00E8FD01 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		58C67263288B0ED200E8FD01 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -647,12 +715,12 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = CP42424Z9Z;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "LearningTask-13.2/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Casa do Código";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -679,12 +747,12 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = CP42424Z9Z;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "LearningTask-13.2/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Casa do Código";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;

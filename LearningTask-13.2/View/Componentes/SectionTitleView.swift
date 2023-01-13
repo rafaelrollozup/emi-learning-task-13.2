@@ -7,7 +7,7 @@
 
 import UIKit
 
-@IBDesignable class SectionTitleView: UIView {
+class SectionTitleView: UIView {
     
     static let alturaBase: CGFloat = 48
     
@@ -25,8 +25,7 @@ import UIKit
         return layer
     }()
     
-    
-    @IBInspectable var texto: String? {
+    var texto: String? {
         didSet {
             tituloLabel.text = texto
         }
@@ -38,35 +37,7 @@ import UIKit
     }
     
     required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        setup()
-    }
-    
-    private func setup() {
-        addTheme()
-        addViews()
-        addConstraints()
-    }
-    
-    private func addTheme() {
-        backgroundColor = .white
-        layer.insertSublayer(backgroundLayer, below: tituloLabel.layer)
-    }
-    
-    private func addViews() {
-        addSubview(tituloLabel)
-    }
-    
-    private func addConstraints() {
-        NSLayoutConstraint.activate([
-            heightAnchor.constraint(greaterThanOrEqualToConstant: Self.alturaBase)
-        ])
-        
-        NSLayoutConstraint.activate([
-            tituloLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
-            tituloLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20),
-            tituloLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -8)
-        ])
+        fatalError("init(coder:) has not been implemented")
     }
     
     override func layoutSubviews() {
@@ -76,3 +47,23 @@ import UIKit
 
 }
 
+extension SectionTitleView: ViewCode {
+    
+    func customizeAppearance() {
+        backgroundColor = .white
+        layer.insertSublayer(backgroundLayer, below: tituloLabel.layer)
+    }
+    
+    func addSubviews() {
+        addSubview(tituloLabel)
+    }
+    
+    func addLayoutConstraints() {
+        self.constrainHeight(greaterThanOrEqualTo: Self.alturaBase)
+        
+        tituloLabel.constrainToBottomAndSides(of: self,
+                                              bottomMargin: 8,
+                                              horizontalMargins: 20)
+    }
+    
+}
